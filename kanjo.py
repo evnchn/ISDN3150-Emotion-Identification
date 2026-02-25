@@ -63,7 +63,7 @@ def get_emotions(text_in, api_key=""):
     )
     print("text_in: ", text_in)
     response = client.chat.completions.create(
-        model="gpt-35-turbo",
+        model="gpt-4o-mini",
         messages=[
             {
                 "role": "system",
