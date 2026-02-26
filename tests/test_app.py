@@ -1,6 +1,5 @@
-import json
 import pytest
-from unittest.mock import MagicMock, patch
+
 from kanjo import functions, get_emotions
 
 
@@ -22,7 +21,8 @@ class TestFunctionSchema:
     def test_emotions_enum_present(self):
         emotions_enum = functions[0]['parameters']['properties']['emotions']['items']['properties']['emotion']['enum']
         assert isinstance(emotions_enum, list)
-        assert len(emotions_enum) == 7
+        expected_count = 7
+        assert len(emotions_enum) == expected_count
 
     def test_all_expected_emotions_in_enum(self):
         emotions_enum = functions[0]['parameters']['properties']['emotions']['items']['properties']['emotion']['enum']
