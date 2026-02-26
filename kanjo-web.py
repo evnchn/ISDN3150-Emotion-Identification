@@ -3,6 +3,7 @@ from kanjo import get_emotions
 from nicegui import ui
 
 import json
+import openai
 
 import os
 
@@ -53,9 +54,11 @@ def main(secret: str = None):
         text_for_analysis = text_input.value
         try:
             response = get_emotions(text_for_analysis, api_key=input_apikey.value)
-        except Exception as e:
-            print(e)
-            raw_response.set_text(str(e))
+        except ValueError as e:
+            raw_response.set_text(f'Validation error: {e}')
+            return
+        except openai.APIError as e:
+            raw_response.set_text(f'API error: {e}')
             return
         print(response)
 
@@ -64,7 +67,11 @@ def main(secret: str = None):
 
         raw_response.set_text(emotions_json_text)
 
-        emotions_json = json.loads(emotions_json_text)
+        try:
+            emotions_json = json.loads(emotions_json_text)
+        except json.JSONDecodeError:
+            raw_response.set_text('Failed to parse API response')
+            return
         print(emotions_json)
 
         emotions = emotions_json["emotions"]
