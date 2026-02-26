@@ -47,9 +47,16 @@ def show_block(emotion, keywords, reasoning, confidence, raw_text):
 def main(secret: str = None):
     ui.label("ISDN3150 Lab 1: Emotion Analysis").classes("text-2xl font-bold")
 
-    input_apikey = ui.input("API Key", value=secret, password=True).classes("w-full")
+    input_apikey = ui.input("API Key", value=secret, password=True,
+                            validation={'API key is required': lambda v: bool(v.strip())}).classes("w-full")
 
     def process_text():
+        if not input_apikey.value or not input_apikey.value.strip():
+            raw_response.set_text('Please enter an API key')
+            return
+        if not text_input.value or not text_input.value.strip():
+            raw_response.set_text('Please enter text to analyze')
+            return
         text_for_analysis = text_input.value
         try:
             response = get_emotions(text_for_analysis, api_key=input_apikey.value)
@@ -72,7 +79,8 @@ def main(secret: str = None):
         show_emotions.refresh(emotions, text_for_analysis)
 
     with ui.row().classes("w-full items-center"):
-        text_input = ui.input("Enter text to analyze").classes(
+        text_input = ui.input("Enter text to analyze",
+                              validation={'Text is required': lambda v: bool(v.strip())}).classes(
             "text-lg flex flex-grow")
         button = ui.button("Analyze", on_click=process_text)
     raw_response = ui.label("Raw response")
