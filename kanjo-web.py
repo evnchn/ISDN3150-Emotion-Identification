@@ -47,6 +47,7 @@ def show_block(emotion: str, keywords: list[str], reasoning: str, confidence: in
 @ui.page('/')
 def main(secret: str | None = None):
     ui.dark_mode(True)
+    ui.query('.nicegui-content').classes('p-0 gap-0')
 
     with ui.element('div').classes('w-full bg-gradient-to-r from-gray-900 via-gray-900 to-cyan-950 p-8 rounded-b-2xl mb-6'):
         ui.label('ISDN3150 Lab 1: Emotion Analysis').classes('text-3xl font-bold text-cyan-400 tracking-tight')
@@ -115,6 +116,7 @@ def main(secret: str | None = None):
         show_emotions()
 
 
+# /admin is expected to be protected by Cloudflare Access
 @ui.page('/admin')
 def admin():
     return main(secret=os.getenv('OPENAI_API_KEY'))
