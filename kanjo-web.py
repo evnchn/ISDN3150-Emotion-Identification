@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from typing import TypedDict
 
 import openai
 from dotenv import load_dotenv
@@ -13,7 +14,15 @@ from kanjo import get_emotions
 # Load the .env file
 load_dotenv()
 
-color_dict = {
+
+class EmotionResult(TypedDict):
+    emotion: str
+    keywords: list[str]
+    reasoning: str
+    confidence: int
+
+
+color_dict: dict[str, str] = {
     'happiness': 'green',
     'sadness': 'blue',
     'anger': 'red',
@@ -24,7 +33,7 @@ color_dict = {
 }
 
 
-def show_block(emotion, keywords, reasoning, confidence, raw_text):
+def show_block(emotion: str, keywords: list[str], reasoning: str, confidence: int | str, raw_text: str) -> None:
     with ui.card().classes(f'border-{color_dict[emotion]}-500 w-full bg-{color_dict[emotion]}-100'):
         ui.label(emotion.title()).classes('text-2xl')
         prepare_string = raw_text

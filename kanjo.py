@@ -1,4 +1,5 @@
 from openai import AzureOpenAI
+from openai.types.chat import ChatCompletion
 
 functions = [
     {
@@ -54,7 +55,7 @@ functions = [
 ]
 
 
-def get_emotions(text_in, api_key=''):
+def get_emotions(text_in: str, api_key: str = '') -> ChatCompletion:
     if not api_key:
         raise ValueError('API key is required.')
     client = AzureOpenAI(
