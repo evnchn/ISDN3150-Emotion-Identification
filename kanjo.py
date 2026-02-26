@@ -73,7 +73,7 @@ def get_emotions(text_in, api_key=""):
         ],
         temperature=0.5,  # this is the degree of randomness of the model's output. A lower temperature results in more deterministic and focused outputs, while a higher temperature produces more varied and creative responses.
         max_tokens=300,
-        functions=functions,
-        function_call={"name": functions[0]["name"]},
+        tools=[{"type": "function", "function": functions[0]}],
+        tool_choice={"type": "function", "function": {"name": "output_final_emotion"}},
     )
     return response
