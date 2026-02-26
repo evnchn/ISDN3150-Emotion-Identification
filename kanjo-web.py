@@ -69,7 +69,7 @@ def main(secret: str = None):
             return
         print(response)
 
-        emotions_json_text = response.choices[0].message.function_call.arguments
+        emotions_json_text = response.choices[0].message.tool_calls[0].function.arguments
         print(emotions_json_text)
 
         raw_response.set_text(emotions_json_text)
